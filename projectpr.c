@@ -228,3 +228,140 @@ void WRONG_ARGOMAN()
 {
     
 }
+int main()
+{
+    char name[200];
+    printf("enter file name: ");
+    scanf("%s", name);
+    FILE *fptr;
+    int line = 0, i = 0, rs, rd, rt, imm;
+    fptr = fopen(name, "r");
+    char content[1000];
+    while (fgets(content, 1000, fptr))
+    {
+        for (int j = 0; j < sizeof(content);j++)
+        {
+            content[j]=toupper(content[j]);
+        }
+        i = 0;
+        char command[150] = {'\0'};
+        line++;
+        while (content[i] != ' ')
+        {
+            command[i] = content[i];
+            i++;
+        }
+        if (strcmp(command, "ADD") == 0)
+        {
+            sscanf(content, "ADD S%d, S%d, S%d", &rd, &rs, &rt);
+            ADD(rd, rs, rt);
+        }
+        else if (strcmp(command, "SUB") == 0)
+        {
+            sscanf(content, "SUB S%d, S%d, S%d", &rd, &rs, &rt);
+            SUB(rd, rs, rt);
+        }
+        else if (strcmp(command, "AND") == 0)
+        {
+            sscanf(content, "AND S%d, S%d, S%d", &rd, &rs, &rt);
+            AND(rd, rs, rt);
+        }
+        else if (strcmp(command, "XOR") == 0)
+        {
+            sscanf(content, "XOR S%d, S%d, S%d", &rd, &rs, &rt);
+            XOR(rd, rs, rt);
+        }
+        else if (strcmp(command, "OR") == 0)
+        {
+            sscanf(content, "OR S%d, S%d, S%d", &rd, &rs, &rt);
+            OR(rd, rs, rt);
+        }
+        else if (strcmp(command, "ADDI") == 0)
+        {
+            sscanf(content, "ADDI S%d, S%d, %d", &rd, &rs, &imm);
+            ADDI(rd, rs, imm);
+        }
+        else if (strcmp(command, "SUBI") == 0)
+        {
+            sscanf(content, "SUBI S%d, S%d, %d", &rd, &rs, &imm);
+            SUBI(rd, rs, imm);
+        }
+        else if (strcmp(command, "ANDI") == 0)
+        {
+            sscanf(content, "ANDI S%d, S%d, %d", &rd, &rs, &imm);
+            ANDI(rd, rs, imm);
+        }
+        else if (strcmp(command, "XORI") == 0)
+        {
+            sscanf(content, "XORI S%d, S%d, %d", &rd, &rs, &imm);
+            XORI(rd, rs, imm);
+        }
+        else if (strcmp(command, "ORI") == 0)
+        {
+            sscanf(content, "ORI S%d, S%d, %d", &rd, &rs, &imm);
+            ORI(rd, rs, imm);
+        }
+        else if (strcmp(command, "MOV") == 0)
+        {
+            if (content[8] == 'S' || content[9] == 'S')
+            {
+
+                sscanf(content, "MOV S%d, S%d", &rt, &rs);
+                MOV(rt, s[rs]);
+            }
+            else
+            {
+                sscanf(content, "MOV S%d, %d", &rt, &imm);
+                MOV(rt, imm);
+            }
+        }
+        else if (strcmp(command, "SWP") == 0)
+        {
+            sscanf(content, "SWP S%d, S%d", &rt, &rs);
+            SWP(rt, rs);
+        }
+        else if (strcmp(command, "DUMP_REGS") == 0)
+        {
+            DUMP_REGS();
+        }
+        else if (strcmp(command, "DUMP_REGS_F") == 0)
+        {
+            DUMP_REGS_F();
+        }
+        else if (strcmp(command, "INPUT") == 0)
+        {
+            INPUT();
+        }
+        else if (strcmp(command, "OUTPUT") == 0)
+        {
+            OUTPUT();
+        }
+        else if (strcmp(command, "MULL") == 0)
+        {
+            sscanf(content, "MULL S%d, S%d", &rt, &rd);
+            MULL(rt, rd);
+        }
+        else if (strcmp(command, "DIV") == 0)
+        {
+            sscanf(content, "DIV S%d, S%d", &rt, &rs);
+            DIV(rt, rs);
+        }
+        else if(strcmp(command, "PUSH") == 0)
+        {
+            sscanf(content, "PUSH S%d", &rt);
+            push(rt);
+        }
+        else if(strcmp(command, "PUP") == 0)
+        {
+            sscanf(content, "PUP S%d", &rt);
+            pup(rt);
+        }
+        else
+        {
+            WRONG_COMMAND(line);
+        }
+
+    }
+    fclose(fptr);
+}
+
