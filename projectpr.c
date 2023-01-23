@@ -173,6 +173,7 @@ void XORI(int rt, int rs, int Imm)
 void MOV(int rt, int Imm)
 {
     s[rt] = Imm;
+    printf("crap");
 }
 void SWP(int rt, int rs)
 {
@@ -214,22 +215,21 @@ void DUMP_REGS_F()
 }
 void INPUT()
 {
-    printf("aaaa\n");
     scanf("%d", &s[0]);
 }
 void OUTPUT()
 {
     printf("\n%d", s[0]);
 }
-void WRONG_COMMAND(int num)
+void WRONG_COMMAND()
 {
-    printf("command %d not available!\n", num);
+    printf("command not available!\n");
 }
 void WRONG_ARGOMAN()
 {
 }
 int main()
-{
+{   char chr;
     char name[200];
     printf("enter file name: ");
     scanf("%s", name);
@@ -238,18 +238,20 @@ int main()
     fptr = fopen(name, "r");
     char content[1000];
     while (fgets(content, 1000, fptr))
-    {
+    { 
         for (int j = 0; j < sizeof(content); j++)
         {
             content[j] = toupper(content[j]);
         }
         i = 0;
         char command[150] = {'\0'};
-        //line++;
+        // line++;
         while (content[i] != ' ')
         {
             command[i] = content[i];
             i++;
+            // if(content[i+1]='\n')
+            //     command[i+1]=' ';
         }
         if (strcmp(command, "ADD") == 0)
         {
@@ -357,35 +359,36 @@ int main()
             pup(rt);
         }
         else if (strcmp(command, "JUMP") == 0)
-        {   printf("hhh");
+        {
+            printf("hhh");
             sscanf(content, "JUMP %d", &imm);
-            line=0;
+            line = 0;
             fseek(fptr, 0, SEEK_SET);
-            while (line +1 < imm)
-            {   char c;
-                c=fgetc(fptr);
+            while (line + 1 < imm)
+            {
+                char c;
+                c = fgetc(fptr);
                 if (c == '\n')
                 {
                     line++;
                 }
-                
             }
-            
         }
         else if (strcmp(command, "SKIE") == 0)
-        {   if(s[rt]=s[rs])
-            char chr;
-            while (chr=fgetc(fptr) != '\n')
-            {
+        {
+            if (s[rt] = s[rs])
 
+            {
+                while (chr = fgetc(fptr) != '\n')
+                {
+                }
+                line++;
             }
-            line ++;
         }
         else
         {
-            WRONG_COMMAND(line);
+            WRONG_COMMAND();
         }
-            
     }
 
     fclose(fptr);
