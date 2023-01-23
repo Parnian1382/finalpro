@@ -201,19 +201,20 @@ void DUMP_REGS_F()
 {
     FILE *file;
     file = fopen("regs.txt", "w");
-    for(int i=0;i<32;i++)
+    for (int i = 0; i < 32; i++)
     {
-        fprintf(file,"%d ",s[i]);
+        fprintf(file, "%d ", s[i]);
     }
-    fprintf(file,"\n");
-    for(int i=0;i<8;i++)
+    fprintf(file, "\n");
+    for (int i = 0; i < 8; i++)
     {
-        fprintf(file,"%d ",status[i]);
+        fprintf(file, "%d ", status[i]);
     }
     fclose(file);
 }
 void INPUT()
 {
+    printf("aaaa\n");
     scanf("%d", &s[0]);
 }
 void OUTPUT()
@@ -222,11 +223,10 @@ void OUTPUT()
 }
 void WRONG_COMMAND(int num)
 {
-    printf("command %d not available!\n",num);
+    printf("command %d not available!\n", num);
 }
 void WRONG_ARGOMAN()
 {
-    
 }
 int main()
 {
@@ -234,18 +234,18 @@ int main()
     printf("enter file name: ");
     scanf("%s", name);
     FILE *fptr;
-    int line = 0, i = 0, rs, rd, rt, imm;
+    int line = 0, i = 0, rs, rd, rt, imm, step;
     fptr = fopen(name, "r");
     char content[1000];
     while (fgets(content, 1000, fptr))
     {
-        for (int j = 0; j < sizeof(content);j++)
+        for (int j = 0; j < sizeof(content); j++)
         {
-            content[j]=toupper(content[j]);
+            content[j] = toupper(content[j]);
         }
         i = 0;
         char command[150] = {'\0'};
-        line++;
+        //line++;
         while (content[i] != ' ')
         {
             command[i] = content[i];
@@ -346,22 +346,47 @@ int main()
             sscanf(content, "DIV S%d, S%d", &rt, &rs);
             DIV(rt, rs);
         }
-        else if(strcmp(command, "PUSH") == 0)
+        else if (strcmp(command, "PUSH") == 0)
         {
             sscanf(content, "PUSH S%d", &rt);
             push(rt);
         }
-        else if(strcmp(command, "PUP") == 0)
+        else if (strcmp(command, "PUP") == 0)
         {
             sscanf(content, "PUP S%d", &rt);
             pup(rt);
+        }
+        else if (strcmp(command, "JUMP") == 0)
+        {   printf("hhh");
+            sscanf(content, "JUMP %d", &imm);
+            line=0;
+            fseek(fptr, 0, SEEK_SET);
+            while (line +1 < imm)
+            {   char c;
+                c=fgetc(fptr);
+                if (c == '\n')
+                {
+                    line++;
+                }
+                
+            }
+            
+        }
+        else if (strcmp(command, "SKIE") == 0)
+        {   if(s[rt]=s[rs])
+            char chr;
+            while (chr=fgetc(fptr) != '\n')
+            {
+
+            }
+            line ++;
         }
         else
         {
             WRONG_COMMAND(line);
         }
-
+            
     }
+
     fclose(fptr);
 }
-
