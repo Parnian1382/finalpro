@@ -1,0 +1,4 @@
+MOp S0, 65   //omggg
+MOV S1, 2    //hehe
+swp S1, S0 
+DUMP_REGS 
